@@ -84,3 +84,10 @@ $CC $CFLAGS -Isrc -Iinclude -Iinclude/uapi -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_
 $CXX $CXXFLAGS $LIB_FUZZING_ENGINE bpf-object-fuzzer.o src/libbpf.a "$(pwd)/elfutils/libelf/libelf.a" -l:libz.a -o "$OUT/bpf-object-fuzzer"
 
 cp fuzz/bpf-object-fuzzer_seed_corpus.zip "$OUT"
+
+# linker-fuzzer: static BPF object linker (src/linker.c)
+$CC $CFLAGS -Isrc -Iinclude -Iinclude/uapi -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c fuzz/linker-fuzzer.c -o linker-fuzzer.o
+$CXX $CXXFLAGS $LIB_FUZZING_ENGINE linker-fuzzer.o src/libbpf.a "$(pwd)/elfutils/libelf/libelf.a" -l:libz.a -o "$OUT/linker-fuzzer"
+
+cp fuzz/linker-fuzzer_seed_corpus.zip "$OUT"
+cp fuzz/linker-fuzzer.dict "$OUT"
