@@ -84,3 +84,10 @@ $CC $CFLAGS -Isrc -Iinclude -Iinclude/uapi -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_
 $CXX $CXXFLAGS $LIB_FUZZING_ENGINE bpf-object-fuzzer.o src/libbpf.a "$(pwd)/elfutils/libelf/libelf.a" -l:libz.a -o "$OUT/bpf-object-fuzzer"
 
 cp fuzz/bpf-object-fuzzer_seed_corpus.zip "$OUT"
+
+# btf-dump-fuzzer: BTF -> C declaration emitter (src/btf_dump.c)
+$CC $CFLAGS -Isrc -Iinclude -Iinclude/uapi -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c fuzz/btf-dump-fuzzer.c -o btf-dump-fuzzer.o
+$CXX $CXXFLAGS $LIB_FUZZING_ENGINE btf-dump-fuzzer.o src/libbpf.a "$(pwd)/elfutils/libelf/libelf.a" -l:libz.a -o "$OUT/btf-dump-fuzzer"
+
+cp fuzz/btf-dump-fuzzer_seed_corpus.zip "$OUT"
+cp fuzz/btf-dump-fuzzer.dict "$OUT"
